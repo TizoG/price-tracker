@@ -3,3 +3,7 @@ env/
 .env
 *.pyc
 *.sqlite3
+
+
+# Hasta que arregle el .env
+database.py
