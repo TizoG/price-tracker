@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from app.bbdd.database import local_session
 from app.models.products import Products
 from app.models.price_history import PriceHistory
+from backend.app.schemas.price_history_schema import PriceHistorySchema
+from backend.app.schemas.product_schemas import ProductSchema
 
 
 # Inicializamos router
@@ -41,3 +43,40 @@ def get_products(name_product: str, db: Session = Depends(get_db)):
         }
 
     }
+
+
+@router.post("/products")
+def post_product(product_data: ProductSchema, product_history: PriceHistorySchema, db: Session = Depends(get_db)):
+    db_product = db.query(Products).filter(
+        Products.name == product_data.name).first()
+
+    if db_product:
+        raise HTTPException(
+            status_code=409, detail="El producto ya existe en la base de datos.")
+
+    if not all([product_data.name, product_data.price, product_data.image]):
+        raise HTTPException(
+            status_code=422, detail="Datos del producto incompletos.")
+
+    new_product = Products(
+        name=product_data.name,
+        price=product_data.price,
+        image=product_data.image
+    )
+    try:
+        db.add(new_product)
+        db.commit()
+        db.refresh(new_product)
+        new_price_history = PriceHistory(
+            product_id=new_product.id,
+            date_scraping=product_history.date_scraping,
+            price=product_history.price,
+            source=product_history.source
+        )
+        db.add(new_price_history)
+        db.commit()
+        db.refresh(new_price_history)
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=500, detail=f"Error al registrar el producto o su historial en la base de datos: {e}")

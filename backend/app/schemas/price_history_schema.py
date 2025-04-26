@@ -4,7 +4,6 @@ from pydantic import BaseModel
 
 
 class PriceHistorySchema(BaseModel):
-    id: int
     product_id: int
     date_scraping: datetime
     price: float

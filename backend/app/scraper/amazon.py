@@ -2,42 +2,46 @@
 import json
 from playwright.sync_api import sync_playwright
 
-URL_PRODUCT = input("Introduce la dirección url: ")
+# URL_PRODUCT = input("Introduce la dirección url: ")
 
-# Iniciar Playwright y abrir un navegador sin interfaz gráfica (headless)
-with sync_playwright() as p:
-    # Usar chrome como navegador
-    browser = p.chromium.launch(headless=True)
 
-    # Crear una nueva página dentro del navegador
-    page = browser.new_page()
+def scraper_amazon(URL_PRODUCT):
+    # Iniciar Playwright y abrir un navegador sin interfaz gráfica (headless)
+    with sync_playwright() as p:
+        # Usar chrome como navegador
+        browser = p.chromium.launch(headless=True)
 
-    # Ir a la URL del producto de Amazon
-    page.goto(URL_PRODUCT)
+        # Crear una nueva página dentro del navegador
+        page = browser.new_page()
 
-    # Esperar a que la página cargue completamnete para evitar errores
-    page.wait_for_load_state("networkidle")
+        # Ir a la URL del producto de Amazon
+        page.goto(URL_PRODUCT)
 
-    # Buscar el título del producto por su ID en la página
-    title_element = page.locator("title").text_content()
+        # Esperar a que la página cargue completamnete para evitar errores
+        page.wait_for_load_state("networkidle")
 
-    # Buscar el precio del producto por su clase en la página
-    price_element = page.locator(
-        "#corePrice_feature_div .a-price-whole").text_content()
+        # Buscar el título del producto por su ID en la página
+        title_element = page.locator("title").text_content()
 
-    # Buscar la URL de la imagen del producto
-    image_element = page.locator(
-        "#imgTagWrapperId #landingImage").get_attribute("src")
+        # Buscar el precio del producto por su clase en la página
+        price_element = page.locator(
+            "#corePrice_feature_div .a-price-whole").text_content()
 
-    # Guardar la información del producto en un diccionario
-    product_data = {
-        "name": title_element,
-        "price": price_element,
-        "image": image_element
-    }
+        # Buscar la URL de la imagen del producto
+        image_element = page.locator(
+            "#imgTagWrapperId #landingImage").get_attribute("src")
 
-    # Mostramos los productos
-    print(json.dumps(product_data, ensure_ascii=False, indent=4))
+        # Guardar la información del producto en un diccionario
+        product_data = {
+            "name": title_element,
+            "price": price_element,
+            "image": image_element
+        }
 
-    # Cerramos el navegador cuando terminemos
-    browser.close()
+        # Mostramos los productos
+        print(json.dumps(product_data, ensure_ascii=False, indent=4))
+
+        # Cerramos el navegador cuando terminemos
+        browser.close()
+
+    return product_data
