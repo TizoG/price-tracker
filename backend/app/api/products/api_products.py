@@ -80,3 +80,39 @@ def post_product(product_data: ProductSchema, product_history: PriceHistorySchem
         db.rollback()
         raise HTTPException(
             status_code=500, detail=f"Error al registrar el producto o su historial en la base de datos: {e}")
+
+
+@router.put("/products/{product_id}")
+def update_product(product_id: int, product_data: ProductSchema, product_history: PriceHistorySchema, db: Session = Depends(get_db)):
+    db_product = db.query(Products).filter(Products.id == product_id).first()
+
+    if not db_product:
+        raise HTTPException(
+            status_code=404, detail="El producto no existe en la base de datos.")
+
+    if not all([product_data.name, product_data.price, product_data.image]):
+        raise HTTPException(
+            status_code=422, detail="Datos del producto incompletos.")
+
+    db_product.name = product_data.name
+    db_product.price = product_data.price
+    db_product.image = product_data.image
+
+    try:
+        db.add(db_product)
+        db.commit()
+        db.refresh(db_product)
+
+        new_price_history = PriceHistory(
+            product_id=db_product.id,
+            date_scraping=product_history.date_scraping,
+            price=product_history.price,
+            source=product_history.source
+        )
+        db.add(new_price_history)
+        db.commit()
+        db.refresh(new_price_history)
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=500, detail=f"Error al registrar el producto o su historial en la base de datos: {e}")

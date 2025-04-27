@@ -16,7 +16,7 @@ y con un historial de precios. 🚀
 from urllib.parse import urlparse
 from app.scraper.amazon import scraper_amazon
 from app.bbdd.database import connetion, Base
-from app.api.products.api_products import get_products, post_product
+from app.api.products.api_products import get_products, post_product, update_product
 from backend.app.models.price_history import PriceHistory
 from backend.app.models.products import Products
 from backend.app.schemas.product_schemas import ProductSchema
@@ -107,6 +107,23 @@ def scraper():
             print("✅ Producto registrado correctamente en la Base de Datos.")
         except Exception as e:
             print(f"❌ Error al insertar el producto en la BD: {e}")
+            return
+
+    # Si el producto esta en la BD, lo actualizamos
+    elif db_product:
+        try:
+            product_data = ProductSchema(**product_scraper)
+            product_history = PriceHistory(
+                product_id=db_product.id,
+                date_scraping=product_scraper.get("date_scraping"),
+                price=product_scraper.get("price"),
+                source=product_scraper.get("source")
+            )
+            update_product(db_product.id, product_data, product_history)
+            print("✅ Producto actualizado correctamente en la Base de Datos.")
+
+        except Exception as e:
+            print(f"❌ Error al actualizar el producto en la BD: {e}")
             return
 
 
