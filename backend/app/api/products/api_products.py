@@ -116,3 +116,28 @@ def update_product(product_id: int, product_data: ProductSchema, product_history
         db.rollback()
         raise HTTPException(
             status_code=500, detail=f"Error al registrar el producto o su historial en la base de datos: {e}")
+
+
+@router.delete("/products/delete/{product_id}")
+def delete_product(product_id: int,  db: Session = Depends(get_db)):
+    db_product = db.query(Products).filter(Products.id == product_id).first()
+    db_price_history = db.query(PriceHistory).filter(
+        PriceHistory.product_id == product_id).all()
+
+    if not db_product:
+        raise HTTPException(
+            status_code=404, detail="El producto no está en la base de datos.")
+    try:
+        # Eliminamos el historial de precios
+        for history in db_price_history:
+            db.delete(history)
+
+        # Eliminamos el producto
+        db.delete(db_product)
+
+        print("✅ Producto eliminado de la base de datos")
+        return {"message": "Producto eliminado correctamente."}
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=500, detail=f"Error al eliminar el producto de la base de datos {e}")
