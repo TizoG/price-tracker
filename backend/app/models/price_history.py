@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Text, Float, ForeignKey, TIMESTAMP, func
 from sqlalchemy.orm import relationship
-from app.bbdd.database import Base
+from bbdd.database import Base
 
 
 class PriceHistory(Base):

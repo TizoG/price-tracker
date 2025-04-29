@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 import jwt
 from datetime import datetime, timedelta
-from backend.config import SECRET_KEY, ALGORITHM
+from config import SECRET_KEY, ALGORITHM
 
 # Cuando un usuario se loguee, le generamos un token valido durante 30min
 

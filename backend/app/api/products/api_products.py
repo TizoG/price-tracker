@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from app.bbdd.database import local_session
-from app.models.products import Products
-from app.models.price_history import PriceHistory
-from backend.app.schemas.price_history_schema import PriceHistorySchema
-from backend.app.schemas.product_schemas import ProductSchema
+from bbdd.database import local_session
+from models.products import Products
+from models.price_history import PriceHistory
+from schemas.price_history_schema import PriceHistorySchema
+from schemas.product_schemas import ProductSchema
 
 
 # Inicializamos router

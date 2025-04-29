@@ -1,5 +1,5 @@
-import datetime
-from pydantic import BaseModel
+from datetime import datetime
+from pydantic import BaseModel, ConfigDict
 
 
 class LoginsSchema(BaseModel):
@@ -7,3 +7,5 @@ class LoginsSchema(BaseModel):
     email: str
     password: str
     date_user: datetime
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)

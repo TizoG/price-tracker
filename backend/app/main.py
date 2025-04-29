@@ -1,15 +1,17 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import sessionmaker
+from api.products.api_products import router as api_products
+from api.users.api_login import router as api_login
+
 from bbdd.database import Base, local_session, engine
-from models.price_history import PriceHistory
-from models.products import Products
+
 
 # Instaciamos la app de FastAPI
 app = FastAPI()
 
 # Incluimos las rutas
-app.include_router(local_session)
+app.include_router(api_products)
+app.include_router(api_login)
 
 # Configuramos CORS
 app.add_middleware(
@@ -30,6 +32,15 @@ def crear_tablas():
         print(f"Error al crear las tablas: {e}")
 
 
+def delete_table():
+    try:
+        Base.metadata.drop_all(bind=engine)
+        print("Tablas eliminadas correctamente.")
+    except Exception as e:
+        print(f"Error al eliminar las tablas: {e}")
+
+
 # instanciamos las funciones
 if __name__ == "__main__":
+    delete_table()
     crear_tablas()
