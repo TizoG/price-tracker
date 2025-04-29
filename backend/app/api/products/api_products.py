@@ -31,7 +31,7 @@ def get_products(name_product: str, db: Session = Depends(get_db)):
         )
 
     price_histroy = db.query(PriceHistory).filter(
-        PriceHistory.id == db_products.id).all()
+        PriceHistory.product_id == db_products.id).all()
 
     return {
         "product": {

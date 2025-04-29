@@ -13,5 +13,5 @@ class PriceHistory(Base):
     source = Column(String(100), nullable=True)
     variation = Column(Float, nullable=True)
 
-    product = relationship(
+    products = relationship(
         "Products", back_populates="price_history", cascade="all, delete")

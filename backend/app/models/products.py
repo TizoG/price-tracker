@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text, Float, ForeignKey, TIMESTAMP, func
 from sqlalchemy.orm import relationship
 from app.bbdd.database import Base
+from app.models.logins import user_products
 
 
 class Products(Base):
@@ -12,3 +13,6 @@ class Products(Base):
 
     price_history = relationship(
         "PriceHistory", back_populates="products", cascade="all, delete")
+    users = relationship(
+        "Users", secondary=user_products, back_populates="products", cascade="all, delete"
+    )
