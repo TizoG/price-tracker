@@ -1,6 +1,6 @@
 from sqlalchemy import TIMESTAMP, Column, Integer, String, ForeignKey, Table, func
 from sqlalchemy.orm import relationship
-from bbdd.database import Base
+from app.bbdd.database import Base
 
 
 user_products = Table(

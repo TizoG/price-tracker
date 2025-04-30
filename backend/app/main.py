@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.products.api_products import router as api_products
-from api.users.api_login import router as api_login
+from app.api.products.api_products import router as api_products
+from app.api.users.api_login import router as api_login
 
-from bbdd.database import Base, local_session, engine
+from app.bbdd.database import Base, engine
 
 
 # Instaciamos la app de FastAPI

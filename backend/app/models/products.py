@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text, Float, ForeignKey, TIMESTAMP, func
 from sqlalchemy.orm import relationship
-from bbdd.database import Base
-from models.logins import user_products
+from app.bbdd.database import Base
+from app.models.logins import user_products
 
 
 class Products(Base):

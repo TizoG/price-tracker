@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from bbdd.database import local_session
-from models.logins import Users
-from schemas.logins_schema import LoginsSchema
+from app.bbdd.database import local_session
+from app.models.logins import Users
+from app.schemas.logins_schema import LoginsSchema
 from bcrypt import hashpw, gensalt, checkpw
 from fastapi.security import OAuth2PasswordBearer, OAuth2AuthorizationCodeBearer, OAuth2PasswordRequestForm
 from fastapi import Security
-from auth import create_access_token, verify_access_token
+from app.auth import create_access_token, verify_access_token
 
 
 router = APIRouter()
