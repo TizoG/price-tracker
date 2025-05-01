@@ -9,7 +9,9 @@ export const DashboardLayout = ({ children }: { children: ReactNode }) => {
             <Sidebar />
             <Box flex="1" bg="gray.50">
                 <Header />
-                <Box p={6}>{children}</Box>
+                <Box bg={'gray.100'} p={4} h={'85%'} pl={24}>
+                    {children}
+                </Box>
             </Box>
         </Flex>
     );
