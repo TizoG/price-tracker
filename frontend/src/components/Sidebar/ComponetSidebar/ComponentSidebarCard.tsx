@@ -12,13 +12,13 @@ export const ComponentSidebarCard = () => {
 
     const Links = [
         { name: 'Dashboard', key: 'dashboard', icon: FaHouseChimney },
+        { name: 'Add Product', key: 'add product', icon: TbBrandProducthunt },
         { name: 'Tables', key: 'tables', icon: FaRegChartBar },
-        { name: 'Billing', key: 'billing', icon: TbBrandProducthunt },
-        { name: 'RTL', key: 'rtl', icon: GiAutoRepair },
+        { name: 'History', key: 'history', icon: GiAutoRepair },
     ];
     const LinksAcount = [
         { name: 'Profile', key: 'profile', icon: FaUser },
-        { name: 'Sign In', key: 'sign in', icon: FaSignInAlt },
+        { name: 'Logout', key: 'logout', icon: FaSignInAlt },
         { name: 'Sign Up', key: 'sign up', icon: AiOutlineRocket },
     ];
     return (
