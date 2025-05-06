@@ -1,17 +1,15 @@
-import { Box, HStack, VStack, Text } from '@chakra-ui/react';
-import { FaLongArrowAltDown } from 'react-icons/fa';
+import { Box, HStack, VStack, Text, GridItem } from '@chakra-ui/react';
+
 import { ComponentsHomeProps } from './ComponetsHome.type';
 
 export const ComponentsHome = (props: ComponentsHomeProps) => {
-    const { title, price, inflaction, icon, color } = props;
+    const { title, price, inflaction, icon, color, colSpan, rowSpan } = props;
     return (
-        <>
+        <GridItem colSpan={colSpan} rowSpan={rowSpan}>
             <Box
                 bg={color}
                 py={3}
                 px={5}
-                h={'auto'}
-                w={382}
                 rounded={15}
                 boxShadow={'0px 4px 6px rgba(0, 0, 0, 0.1)'}
             >
@@ -57,6 +55,6 @@ export const ComponentsHome = (props: ComponentsHomeProps) => {
                     </Box>
                 </HStack>
             </Box>
-        </>
+        </GridItem>
     );
 };

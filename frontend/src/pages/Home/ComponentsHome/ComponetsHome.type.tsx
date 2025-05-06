@@ -4,4 +4,6 @@ export type ComponentsHomeProps = {
     inflaction: number;
     icon: any;
     color: string;
+    colSpan?: Object;
+    rowSpan?: number;
 };
